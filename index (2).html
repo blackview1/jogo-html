@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Joguinho na Floresta</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: url('https://www.example.com/floresta.jpg') no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: white;
+        }
+        .game-container {
+            text-align: center;
+        }
+        #message {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        #playArea {
+            width: 600px;
+            height: 400px;
+            position: relative;
+            background: rgba(0, 0, 0, 0.5);
+            border: 3px solid #fff;
+            margin: auto;
+        }
+        .treasure {
+            width: 50px;
+            height: 50px;
+            background: url('https://www.example.com/tesouro.png') no-repeat center center;
+            background-size: cover;
+            position: absolute;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <div id="message">Clique em qualquer lugar dentro da área para encontrar o tesouro!</div>
+        <div id="playArea">
+            <div class="treasure" id="treasure"></div>
+        </div>
+    </div>
+
+    <script>
+        // Função para gerar uma posição aleatória dentro da área de jogo
+        function getRandomPosition(element) {
+            const playArea = document.getElementById('playArea');
+            const playAreaRect = playArea.getBoundingClientRect();
+            const elementRect = element.getBoundingClientRect();
+            const x = Math.random() * (playAreaRect.width - elementRect.width);
+            const y = Math.random() * (playAreaRect.height - elementRect.height);
+            return { x, y };
+        }
+
+        // Função para posicionar o tesouro
+        function placeTreasure() {
+            const treasure = document.getElementById('treasure');
+            const position = getRandomPosition(treasure);
+            treasure.style.left = `${position.x}px`;
+            treasure.style.top = `${position.y}px`;
+            treasure.style.display = 'block';
+        }
+
+        // Inicializa o jogo
+        document.getElementById('playArea').addEventListener('click', () => {
+            const treasure = document.getElementById('treasure');
+            if (treasure.style.display === 'block') {
+                document.getElementById('message').textContent = 'Parabéns! Você encontrou o tesouro!';
+            } else {
+                document.getElementById('message').textContent = 'Tente novamente!';
+            }
+            placeTreasure();
+        });
+
+        // Coloca o tesouro pela primeira vez
+        placeTreasure();
+    </script>
+</body>
+</html>
